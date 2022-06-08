@@ -4,21 +4,21 @@ class Repuestoservice{
   constructor(){
     this.repuestos=[{
       id: faker.datatype.uuid(),
-      nombre: "4Runner",
-      imagen: "https://www.toyotaperu.com.pe/sites/default/files/camioneta-4Runner-Toyota-4x4.png",
-      precio: "S/23100"
+      nombre: "LLantas PCR",
+      imagen: "https://www.imporcadi.com/wp-content/uploads/2021/07/llanta-trailer.png",
+      precio: "S/400"
     },
     {
       id: faker.datatype.uuid(),
-      nombre: "Avanza",
-      imagen: "https://www.toyotaperu.com.pe/sites/default/files/avanza-listado_0.png",
-      precio: "S/82680"
+      nombre: "Timones",
+      imagen: "https://www.nicepng.com/png/full/338-3380707_mazda-gt-custom-steering-wheel.png",
+      precio: "S/680"
     },
     {
       id: faker.datatype.uuid(),
-      nombre: "Hilux",
-      imagen: "https://www.toyotaperu.com.pe/sites/default/files/HILUX.png",
-      precio: "S/160280"
+      nombre: "Faroles",
+      imagen: "https://scdn.autoersatzteile.de/catalog/categories/513x196/27.png?rev=94077826",
+      precio: "S/1280"
     }
   ]
     //this.GenerarDatos();
