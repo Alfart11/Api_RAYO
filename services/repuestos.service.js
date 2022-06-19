@@ -44,7 +44,7 @@ class Repuestoservice{
   update(id, repuesto) {
     const posicion = this.repuestos.findIndex(item => item.id == id);
     if (posicion === -1) {
-      throw new Error("repuesto no encontrado");
+      throw new Error("Repuesto no encontrado");
     }
     this.repuestos[posicion] = repuesto;
     return this.repuestos[posicion];
@@ -53,7 +53,7 @@ class Repuestoservice{
   delete(id) {
     const posicion = this.repuestos.findIndex(item => item.id == id);
     if (posicion === -1) {
-      throw new Error("Producto no encontrado");
+      throw new Error("Repuesto no encontrado");
     }
     this.repuestos.splice(posicion, 1);
     return {

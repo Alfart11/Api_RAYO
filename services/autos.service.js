@@ -1,24 +1,25 @@
 const faker = require("faker")
+const boom = require("@hapi/boom");
 
 class AutoService{
   constructor(){
-    this.auto=[{
+    this.autos=[{
       id: faker.datatype.uuid(),
       nombre: "4Runner",
       imagen: "https://www.toyotaperu.com.pe/sites/default/files/camioneta-4Runner-Toyota-4x4.png",
-      precio: "S/23100"
+      precio: 23100
     },
     {
       id: faker.datatype.uuid(),
       nombre: "Avanza",
       imagen: "https://www.toyotaperu.com.pe/sites/default/files/avanza-listado_0.png",
-      precio: "S/82680"
+      precio: 82680
     },
     {
       id: faker.datatype.uuid(),
       nombre: "Hilux",
       imagen: "https://www.toyotaperu.com.pe/sites/default/files/HILUX.png",
-      precio: "S/160280"
+      precio: 160280
     }
   ]
     //this.GenerarDatos();
@@ -27,7 +28,7 @@ class AutoService{
   GenerarDatos() {
     const size = 10;
     for (let index = 0; index < size; index++) {
-      this.auto.push({
+      this.autos.push({
         id: faker.datatype.uuid(),
         nombre: faker.commerce.productName(),
         precio: parseInt(faker.commerce.price()),
@@ -37,38 +38,55 @@ class AutoService{
   }
 
   create(auto) {
+    const costo = auto.precio;
+    if (costo < 10000) {
+      throw boom.notFound("El Costo minimo de un Auto es $10000");
+    } 
     auto.id = faker.datatype.uuid();
-    this.auto.push(auto);
+    this.autos.push(auto);
   }
 
   update(id, auto) {
-    const posicion = this.auto.findIndex(item => item.id == id);
+    const posicion = this.autos.findIndex(item => item.id == id);
     if (posicion === -1) {
-      throw new Error("auto no encontrado");
+      throw boom.notFound("Auto no encontrado");
     }
-    this.auto[posicion] = auto;
-    return this.auto[posicion];
+    this.autos[posicion] = auto;
+    return this.autos[posicion];
   }
 
   delete(id) {
-    const posicion = this.auto.findIndex(item => item.id == id);
+    const posicion = this.autos.findIndex(item => item.id == id);
     if (posicion === -1) {
-      throw new Error("Producto no encontrado");
+      throw boom.notFound("Auto no encontrado");
     }
-    this.auto.splice(posicion, 1);
+    this.autos.splice(posicion, 1);
     return {
-      mensaje: "operacion realizada",
+      mensaje: "Auto Eliminado",
       id
     };
   }
 
-  findAll() {
-    return this.auto;
+  findAll(){
+    return new Promise((resolve,reject)=>{
+    setTimeout(() =>{
+      resolve (this.autos);
+    },
+      1000)
+   });
   }
 
-  findBy() {
-    return this.auto.find(item => item.id === id);
+  findBy(id){
+    const auto = this.autos.find(item =>item.id == id);
+    if (!auto){
+      throw boom.notFound("Auto no encontrado");
+    }
+    if (!auto.id){
+      throw boom.forbidden("Auto no encontrado");
+    }
+    return auto;
   }
+
 }
 
 module.exports = AutoService;
