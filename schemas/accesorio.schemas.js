@@ -6,26 +6,26 @@ const nombre = Joi.string().alphanum().min(3).max(30);
 const imagen = Joi.string();
 const precio = Joi.number().integer().min(4);
 
-const crearAutoSchema = Joi.object({
+const crearAccesorioSchema = Joi.object({
   nombre: nombre.required(),
   imagen,
   precio: precio.required()
 });
 
-const actualizarAutoSchema = Joi.object({
+const actualizarAccesorioSchema = Joi.object({
   id : id.required(),
   nombre,
   imagen,
   precio
 });
 
-const eliminarAutosSchema = Joi.object({
+const eliminarAccesoriosSchema = Joi.object({
   id : id.required()
 });
 
 
-const findByAutoSchema = Joi.object({
+const findByAccesorioSchema = Joi.object({
   id : id.required()
 });
 
-module.exports = {crearAutoSchema,actualizarAutoSchema,eliminarAutosSchema,findByAutoSchema};
+module.exports = {crearAccesorioSchema,actualizarAccesorioSchema,eliminarAccesoriosSchema,findByAccesorioSchema};

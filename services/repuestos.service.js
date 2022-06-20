@@ -57,7 +57,7 @@ class Repuestoservice{
     }
     this.repuestos.splice(posicion, 1);
     return {
-      mensaje: "operacion realizada",
+      mensaje: "Repuesto Eliminado",
       id
     };
   }

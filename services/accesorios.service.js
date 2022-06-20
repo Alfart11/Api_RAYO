@@ -57,7 +57,7 @@ class AccesorioService{
     }
     this.accesorios.splice(posicion, 1);
     return {
-      mensaje: "operacion realizada",
+      mensaje: "Accesorio Eliminado",
       id
     };
   }

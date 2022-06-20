@@ -21,7 +21,7 @@ router.get('/',async (req, res) => {
 // POST --> Crear
 router.post(
   '/',
-  controlValidar(crearAutoSchema, 'params'),
+  controlValidar(crearAutoSchema, 'body'),
   async (req, res) => {
     try {
       const body = await req.body;

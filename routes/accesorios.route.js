@@ -1,69 +1,91 @@
-const { json } = require("express");
-const express = require("express");
+const express = require('express');
 
-const AccesorioService = require('../services/accesorios.service')
+const AccesorioService = require('../services/accesorios.service');
+const controlValidar = require('../middlewares/validar.middleware');
+const {
+  crearAccesorioSchema,
+  actualizarAccesorioSchema,
+  findByAccesorioSchema,
+  eliminarAccesoriosSchema,
+} = require('../schemas/accesorio.schemas');
+
 const servicio = new AccesorioService();
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  const accesorio = servicio.findAll();
+// GET --> Mostrar
+router.get('/',async (req, res) => {
+  const accesorio = await servicio.findAll();
   res.status(200).json(accesorio);
 });
 
-router.post('/', (req, res) => {
-  const body = req.body;
-  servicio.create(body);
-  res.status(201).json({
-    mensaje: 'registro exitoso',
-    datos: body
-  });
-});
-
-router.put('/:id',async(req,res,) => {
-  const { id }= req.params;
-  try {
-    const body = req.body;
-    const accesorio =await servicio.update(id,body);
-    res.status(200).json(accesorio);
-  } catch (error) {
-    res.status(404).json({
-      mensaje: error.message
-    });
+// POST --> Crear
+router.post(
+  '/',
+  controlValidar(crearAccesorioSchema, 'body'),
+  async (req, res) => {
+    try {
+      const body = await req.body;
+      servicio.create(body);
+      res.status(201).json({
+        mensaje: 'Accesorio registrado con exito',
+        datos: body,
+      });
+    } catch (error) {
+      res.status(404).json({
+        mensaje: error.message,
+      });
+    }
   }
+);
 
-});
-
-router.patch('/:id', (req, res) => {
-  const { id } = req.params
-  const body = req.body;
-  servicio.update(id,body)
-  res.status(200).json({
-    mensaje: 'registro parcialmente actualizado',
-    datos: servicio.findBy(id)
-  });
-});
-
-router.delete('/:id',(req,res)=> {
-  const {id} = req.params;
-  servicio.delete(id);
-  res.json({
-  mensaje :('registro eliminado'),
-  });
-});
-
-router.get('/:id', (req, res) => {
-  const { id } = req.params;
-  const accesorio = servicio.findBy(id);
-  if (id == '10'){
-    res.status(404).json(
-      {
-        mensaje: 'no se encuentra el accesorio solicitado'
-      }
-    );
-  } else {
-    res.status(200).json(accesorio);
+// PUT --> Actualizar
+router.put(
+  '/:id',
+  controlValidar(actualizarAccesorioSchema, 'params'),
+  async (req, res) => {
+    const { id } = req.params;
+    try {
+      const body = req.body;
+      const accesorio = await servicio.update(id, body);
+      res.status(200).json(accesorio);
+    } catch (error) {
+      res.status(404).json({
+        mensaje: error.message,
+      });
+    }
   }
-});
+);
+
+// DELETE --> Eliminar
+router.delete(
+  '/:id',
+  controlValidar(eliminarAccesoriosSchema, 'params'),
+  (req, res) => {
+    try {
+      const { id } = req.params;
+      const salida = servicio.delete(id);
+      res.json(salida);
+    } catch (error) {
+      res.status(404).json({
+        mensaje: error.message,
+      });
+    }
+  }
+);
+
+router.get(
+  '/:id',
+  controlValidar(findByAccesorioSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const accesorio = await servicio.findBy(id);
+      res.json(accesorio);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 module.exports = router;
 
