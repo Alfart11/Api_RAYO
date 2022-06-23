@@ -37,7 +37,7 @@ router.post('/', controlValidar(crearAutoSchema, 'body'), async (req, res) => {
 // PUT --> Actualizar
 router.put(
   '/:id',
-  controlValidar(actualizarAutoSchema, 'params'),
+  controlValidar(actualizarAutoSchema, 'body'),
   async (req, res) => {
     const { id } = req.params;
     try {
@@ -48,6 +48,28 @@ router.put(
       res.status(404).json({
         mensaje: error.message,
       });
+    }
+  }
+);
+
+// PATCH Actualizar Parcial
+router.patch(
+  '/:id',
+  controlValidar(actualizarAutoSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const body = {
+        id: id,
+        ...req.body,
+      };
+      const Auto = await servicio.update(id, body);
+      res.status(200).json({
+        mensaje: 'Auto Parcialmente actualizado',
+        datos: Auto,
+      });
+    } catch (error) {
+      next(error);
     }
   }
 );

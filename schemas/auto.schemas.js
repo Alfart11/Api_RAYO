@@ -1,10 +1,9 @@
-const { required } = require("joi");
 const Joi = require("joi");
 
 const id = Joi.string().uuid();
 const nombre = Joi.string().alphanum().min(3).max(30);
 const imagen = Joi.string();
-const precio = Joi.number().integer().min(4);
+const precio = Joi.number().integer().min(10000);
 
 const crearAutoSchema = Joi.object({
   nombre: nombre.required(),
@@ -14,9 +13,9 @@ const crearAutoSchema = Joi.object({
 
 const actualizarAutoSchema = Joi.object({
   id : id.required(),
-  nombre,
-  imagen,
-  precio
+  nombre: id.required(),
+  imagen: id.required(),
+  precio: id.required(),
 });
 
 const eliminarAutosSchema = Joi.object({

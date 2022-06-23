@@ -1,4 +1,3 @@
-const { required } = require("joi");
 const Joi = require("joi");
 
 const id = Joi.string().uuid();
@@ -14,9 +13,9 @@ const crearAccesorioSchema = Joi.object({
 
 const actualizarAccesorioSchema = Joi.object({
   id : id.required(),
-  nombre,
-  imagen,
-  precio
+  nombre: id.required(),
+  imagen: id.required(),
+  precio: id.required(),
 });
 
 const eliminarAccesoriosSchema = Joi.object({

@@ -81,10 +81,8 @@ class AutoService{
     if (!auto){
       throw boom.notFound("Auto no encontrado");
     }
-    if (!auto.id){
-      throw boom.forbidden("Auto no encontrado");
-    }
     return auto;
+
   }
 
 }

@@ -41,7 +41,7 @@ router.post(
 // PUT --> Actualizar
 router.put(
   '/:id',
-  controlValidar(actualizarAccesorioSchema, 'params'),
+  controlValidar(actualizarAccesorioSchema, 'body'),
   async (req, res) => {
     const { id } = req.params;
     try {

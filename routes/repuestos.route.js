@@ -41,7 +41,7 @@ router.post(
 // PUT --> Actualizar
 router.put(
   '/:id',
-  controlValidar(actualizarRepuestoSchema, 'params'),
+  controlValidar(actualizarRepuestoSchema, 'body'),
   async (req, res) => {
     const { id } = req.params;
     try {
@@ -52,6 +52,28 @@ router.put(
       res.status(404).json({
         mensaje: error.message,
       });
+    }
+  }
+);
+
+// PATCH Actualizar Parcial
+router.patch(
+  '/:id',
+  controlValidar(actualizarRepuestoSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const body = {
+        id: id,
+        ...req.body,
+      };
+      const Repuesto = await servicio.update(id, body);
+      res.status(200).json({
+        mensaje: 'Repuesto Parcialmente actualizado',
+        datos: Repuesto,
+      });
+    } catch (error) {
+      next(error);
     }
   }
 );
