@@ -8,7 +8,7 @@ const precio = Joi.number().integer().min(4);
 
 const crearAutoSchema = Joi.object({
   nombre: nombre.required(),
-  imagen,
+  imagen: imagen.required(),
   precio: precio.required()
 });
 

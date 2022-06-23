@@ -13,7 +13,7 @@ const servicio = new AccesorioService();
 const router = express.Router();
 
 // GET --> Mostrar
-router.get('/',async (req, res) => {
+router.get('/', async (req, res) => {
   const accesorio = await servicio.findAll();
   res.status(200).json(accesorio);
 });
@@ -73,6 +73,7 @@ router.delete(
   }
 );
 
+// Mostrar Elemento Especifico
 router.get(
   '/:id',
   controlValidar(findByAccesorioSchema, 'params'),
@@ -88,4 +89,3 @@ router.get(
 );
 
 module.exports = router;
-

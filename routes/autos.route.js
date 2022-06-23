@@ -13,30 +13,26 @@ const servicio = new AutoService();
 const router = express.Router();
 
 // GET --> Mostrar
-router.get('/',async (req, res) => {
+router.get('/', async (req, res) => {
   const auto = await servicio.findAll();
   res.status(200).json(auto);
 });
 
 // POST --> Crear
-router.post(
-  '/',
-  controlValidar(crearAutoSchema, 'body'),
-  async (req, res) => {
-    try {
-      const body = await req.body;
-      servicio.create(body);
-      res.status(201).json({
-        mensaje: 'Auto registrado con exito',
-        datos: body,
-      });
-    } catch (error) {
-      res.status(404).json({
-        mensaje: error.message,
-      });
-    }
+router.post('/', controlValidar(crearAutoSchema, 'body'), async (req, res) => {
+  try {
+    const body = await req.body;
+    servicio.create(body);
+    res.status(201).json({
+      mensaje: 'Auto registrado con exito',
+      datos: body,
+    });
+  } catch (error) {
+    res.status(404).json({
+      mensaje: error.message,
+    });
   }
-);
+});
 
 // PUT --> Actualizar
 router.put(

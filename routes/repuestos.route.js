@@ -13,7 +13,7 @@ const servicio = new RepuestoService();
 const router = express.Router();
 
 // GET --> Mostrar
-router.get('/',async (req, res) => {
+router.get('/', async (req, res) => {
   const repuesto = await servicio.findAll();
   res.status(200).json(repuesto);
 });
@@ -88,4 +88,3 @@ router.get(
 );
 
 module.exports = router;
-

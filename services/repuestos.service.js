@@ -1,4 +1,5 @@
-const faker = require("faker")
+const faker = require("faker");
+const boom = require("@hapi/boom");
 
 class Repuestoservice{
   constructor(){
@@ -17,7 +18,7 @@ class Repuestoservice{
     {
       id: faker.datatype.uuid(),
       nombre: "Faroles",
-      imagen: "https://scdn.autoersatzteile.de/catalog/categories/513x196/27.png?rev=94077826",
+      imagen: "https://scdn.repuestoersatzteile.de/catalog/categories/513x196/27.png?rev=94077826",
       precio: "S/1280"
     }
   ]
@@ -66,8 +67,15 @@ class Repuestoservice{
     return this.repuestos;
   }
 
-  findBy() {
-    return this.repuestos.find(item => item.id === id);
+  findBy(id){
+    const repuesto = this.repuestos.find(item =>item.id == id);
+    if (!repuesto){
+      throw boom.notFound("Repuesto no encontrado");
+    }
+    if (!repuesto.id){
+      throw boom.forbidden("Repuesto no encontrado");
+    }
+    return repuesto;
   }
 }
 

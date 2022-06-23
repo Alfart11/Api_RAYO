@@ -1,4 +1,5 @@
 const faker = require("faker")
+const boom = require("@hapi/boom");
 
 class AccesorioService{
   constructor(){
@@ -66,8 +67,15 @@ class AccesorioService{
     return this.accesorios;
   }
 
-  findBy() {
-    return this.accesorios.find(item => item.id === id);
+  findBy(id){
+    const accesorio = this.accesorios.find(item =>item.id == id);
+    if (!accesorio){
+      throw boom.notFound("Accesorio no encontrado");
+    }
+    if (!accesorio.id){
+      throw boom.forbidden("Accesorio no encontrado");
+    }
+    return accesorio;
   }
 }
 
